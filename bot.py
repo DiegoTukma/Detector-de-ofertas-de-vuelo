@@ -37,13 +37,13 @@ async def revisar_vuelo(origen, destino, fecha):
 
     async with async_playwright() as p:
         navegador = await p.chromium.launch(headless=True)
-        pagina = await navegador.new_page()
 
-        # User-Agent para evitar bloqueos básicos
-        await pagina.set_user_agent(
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-            "(KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
+        # Crear contexto con user-agent personalizado
+        contexto = await navegador.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
         )
+        pagina = await contexto.new_page()
 
         await pagina.goto(url)
 
